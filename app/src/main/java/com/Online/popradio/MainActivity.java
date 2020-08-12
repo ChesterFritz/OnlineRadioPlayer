@@ -37,11 +37,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getSupportActionBar().hide();
         new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                final KeyEvent event = (KeyEvent) intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
+                final KeyEvent event =  intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
+                assert event != null;
                 if (event.getAction() != KeyEvent.ACTION_DOWN) return;
 
                 switch (event.getKeyCode()) {
@@ -61,16 +61,15 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
-        PopOS = (TextView) findViewById(R.id.tpp);
+        PopOS =  findViewById(R.id.tpp);
         PopOS.setText("Loading...");
 
 
-        imageView = (ImageView) findViewById(R.id.Menuu);
-        play = (ImageView) findViewById(R.id.playme);
+        imageView =  findViewById(R.id.Menuu);
+        play = findViewById(R.id.playme);
         play.setEnabled(false);
         //Problem Solved
         //Creating new MediaPlayer object every time and releasing it after completion
-        final String url = "http://188.165.192.5:9231/stream";
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         seekBarVolume = findViewById(R.id.seekBarVolume);
@@ -124,19 +123,15 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void initializeMediaPlayer() {
-
-    }
 
 
-    class PlayerTask extends AsyncTask<String, Void, Boolean> {
+    private class PlayerTask extends AsyncTask <String, Void, Boolean> {
 
         @Override
         protected Boolean doInBackground(String... strings) {
 
             try {
                 mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-
                 mediaPlayer.setDataSource(url);
                 mediaPlayer.prepare();
                 prepared = true;
@@ -157,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
-            PopOS = (TextView) findViewById(R.id.tpp);
+            PopOS = findViewById(R.id.tpp);
             PopOS.setText("The Power Of The Philippines");
 
         }
