@@ -1,5 +1,5 @@
 # OnlineRadioPlayer
-An Online Radio Player for popradio station 
+This is a Online Radrio App for android
 
 # What I Learned
 * Developed a user interface within the xml file using RelativeLayout,EditText,SetText, & Button.
