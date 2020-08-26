@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     boolean prepared = false;
     boolean started = false;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +67,12 @@ public class MainActivity extends AppCompatActivity {
 
 
         imageView =  findViewById(R.id.Menuu);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Info();
+            }
+        });
         play = findViewById(R.id.playme);
         play.setEnabled(false);
         //Problem Solved
@@ -205,5 +212,10 @@ public class MainActivity extends AppCompatActivity {
 
 
         }
+    }
+    public  void  Info() {
+        Intent intent = new Intent(this, Info.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+        this.startActivity(intent);
     }
 }
