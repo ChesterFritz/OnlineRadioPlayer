@@ -26,14 +26,10 @@ public class MainActivity extends AppCompatActivity {
     SeekBar seekBarVolume;
     MediaPlayer mediaPlayer;
     TextView PopOS;
-
     TextView song_n;
     private final static String url = "http://188.165.192.5:9231/stream";
-
     boolean prepared = false;
     boolean started = false;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,8 +60,6 @@ public class MainActivity extends AppCompatActivity {
         };
         PopOS =  findViewById(R.id.tpp);
         PopOS.setText("Loading...");
-
-
         imageView =  findViewById(R.id.Menuu);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,10 +74,8 @@ public class MainActivity extends AppCompatActivity {
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         seekBarVolume = findViewById(R.id.seekBarVolume);
-
         new PlayerTask().execute(url);
-
-
+        //OnClickListener for play and pause button
         play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,25 +83,21 @@ public class MainActivity extends AppCompatActivity {
                     started = false;
                     mediaPlayer.pause();
                     play.setImageResource(R.drawable.play);
-
-
                 } else {
                     started = true;
                     mediaPlayer.start();
                     play.setImageResource(R.drawable.pause);
-
-
-
                 }
             }
         });
+
         mediaPlayer.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
 
             public void onBufferingUpdate(MediaPlayer mp, int percent) {
                 mediaPlayer.prepareAsync();
             }
         });
-
+        //codes for VolumeBar
         seekBarVolume.setProgress(50);
         seekBarVolume.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -117,39 +105,29 @@ public class MainActivity extends AppCompatActivity {
                 float volume = progress / 100f;
                 mediaPlayer.setVolume(volume, volume);
             }
-
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
             }
-
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
             }
         });
-
     }
-
-
-
+    //setting mediaplayer to get source from database online
     private class PlayerTask extends AsyncTask <String, Void, Boolean> {
-
         @Override
         protected Boolean doInBackground(String... strings) {
-
             try {
                 mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
                 mediaPlayer.setDataSource(url);
                 mediaPlayer.prepare();
                 prepared = true;
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
             return prepared;
         }
-
+        //codes when the data from server is now Done!
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
@@ -162,10 +140,9 @@ public class MainActivity extends AppCompatActivity {
             toast.show();
             PopOS = findViewById(R.id.tpp);
             PopOS.setText("The Power Of The Philippines");
-
         }
     }
-
+    //codes for background playing
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onPause() {
@@ -182,37 +159,29 @@ public class MainActivity extends AppCompatActivity {
             // Argument equals false because the activity is not playing
             requestVisibleBehind(false);
         }
-
     }
-
     private void stopPlayback() {
-
     }
-
     @Override
     public void onVisibleBehindCanceled() {
         // App-specific method to stop playback and release resources
         stopPlayback();
         super.onVisibleBehindCanceled();
     }
-
     @Override
     protected void onResume() {
         super.onResume();
-
     }
-
-
+    //MediaPlayer Stop
     @Override
     protected void onDestroy() {
         super.onDestroy();
         if (prepared) {
             super.onDestroy();
             mediaPlayer.release();
-
-
         }
     }
+    //Open info Activity
     public  void  Info() {
         Intent intent = new Intent(this, Info.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
